@@ -19,7 +19,6 @@ const Homepage = () => {
                 let data = []
                 if (response.data.length) {
                     response.data.forEach(video => {
-                        // return
                         let chunks = {}
                         chunks.videopath = video.video
                         chunks.name = video.name

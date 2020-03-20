@@ -20,4 +20,8 @@ router.get("/videos", (req, res) => {
   })
 });
 
+router.get("/", (req, res) => {
+  res.status(200).json({ "response": "Server is working!" })
+})
+
 module.exports = router

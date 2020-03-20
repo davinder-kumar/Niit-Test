@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
-// import { SocketProvider, socketConnect } from 'socket.io-react';
-// import io from 'socket.io-client';
 import { socketConnect } from 'socket.io-react';
 import './FileUploder.css'
 
 const FileUploader = (props) => {
-    // console.log(props)
     const [percentage, setPercentage] = useState(0)
     const [progress, SetProgress] = useState(0)
 
@@ -16,7 +13,6 @@ const FileUploader = (props) => {
 
         var file = '';
         file = event.target.files[0]
-        // console.log(event.target.files)
         if (!file) {
             return false;
         }
@@ -51,10 +47,7 @@ const FileUploader = (props) => {
             SetProgress(100)
             setPercentage(100)
         });
-
-
     }
-
     return (
         <div>
             <h2>Progress Bar</h2>

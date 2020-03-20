@@ -63,7 +63,6 @@ const socketHandler = socket => {
                     fs.unlink("src/Temp/" + Name, function () { //This Deletes The Temporary File
                         ///small screenshot
                         var proc = new ffmpeg("src/uploads/Video/" + filename + ext)
-
                             .takeScreenshots({
                                 count: 1,
                                 timemarks: ['00:00:02.000'], // number of seconds,
@@ -72,10 +71,8 @@ const socketHandler = socket => {
 
                             }, 'src/uploads/Video/thumbs', function (err) {
                                 console.log('screenshots were saved')
-
                             })
-
-                        ///second screenshot
+                        //second screenshot
                         proc = new ffmpeg("src/uploads/Video/" + filename + ext)
                             .on('end', async function () {
 
