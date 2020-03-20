@@ -3,6 +3,7 @@ import axios from '../../axios-videos'
 import classes from './Homepage.module.css'
 import Modal from '../../components/UI/Modal/Modal'
 import { Link } from 'react-router-dom'
+import withError from '../../hoc/withErrorHoc/withErrorHoc'
 const Homepage = () => {
     const [videos, updateVideos] = useState([])
     const [unmutatedVideos, setUnMutatedVideos] = useState([])
@@ -99,4 +100,4 @@ const Homepage = () => {
     );
 
 }
-export default Homepage;
+export default withError(Homepage,axios);

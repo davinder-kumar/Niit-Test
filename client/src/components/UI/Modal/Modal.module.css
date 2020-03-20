@@ -21,4 +21,6 @@
   }
   button{
       font-size: 15px;
+      float: right;
+      margin: 5px;
   }

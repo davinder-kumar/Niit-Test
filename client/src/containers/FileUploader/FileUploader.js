@@ -26,7 +26,6 @@ const FileUploader = (props) => {
         fileReader.onload = (evt) => {
             if (event.target.files[0].name !== file.name)
                 return false;
-            // console.log(event.target.files, file.name, "TEST")
             let arrayBuffer = evt.target.result;
             props.socket.emit('Upload', {
                 Name: file.name,
@@ -36,13 +35,9 @@ const FileUploader = (props) => {
             });
         }
 
-
-
         props.socket.on('MoreData', function (data) {
             UpdateBar(data['Percent']);
-            // console.log(file)
             var Place = data['Place'] * 524288; //The Next Blocks Starting Position
-            // var NewFile; //The Variable that will hold the new Block of Data
             var NewFile = file.slice(Place, Place + Math.min(524288, (file.size - Place)));
             fileReader.readAsBinaryString(NewFile);
         });
