@@ -20,7 +20,10 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 const socketIoLogic = require('./socket-io/socket-io')
 //allow cross origin
 app.use(cors());
-// app.use(fileUpload());
+
+app.use('/uploads', express.static(__dirname + '/uploads'));
+
+
 //register routes and thier working
 app.use(webRoutes)
 const server = http.createServer(app);

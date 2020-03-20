@@ -1,3 +1,4 @@
 export const routes ={
-    'upload' : '/upload'
+    'upload' : '/upload',
+    'home' : "/"
 }

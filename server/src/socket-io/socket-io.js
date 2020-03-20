@@ -7,23 +7,29 @@ ffmpeg.setFfmpegPath(ffmpegPath);
 const pump = require("pump")
 const videoModel = require("../models/videos")
 var Files = {}
-
+var Chunks = []
 const socketHandler = socket => {
+
     console.log("New client connected");
     socket.on("disconnect", () => {
         console.log("Client disconnected");
     });
 
-    socket.on("Start", (data) => {
+    socket.on("Start", async (data) => {
+
+        //reset the data
+        Files = {}
+        Chunks = []
         var Name = data['Name'];
         Files[Name] = {  //Create a new Entry in The Files Variable
             FileSize: data['Size'],
             Data: "",
             Downloaded: 0
         }
+        // console.log(Files, "START")
         var Place = 0;
         try {
-            var Stat = fs.statSync('src/Temp/' + Name);
+            var Stat = await fs.statSync('src/Temp/' + Name);
             if (Stat.isFile()) {
                 Files[Name]['Downloaded'] = Stat.size;
                 Place = Stat.size / 524288;
@@ -43,7 +49,7 @@ const socketHandler = socket => {
 
     socket.on('Upload', function (data) {
         var Name = data['Name'];
-        console.log(Name, "TEST")
+        Chunks.push(data['Data'])
         Files[Name]['Downloaded'] += data['Data'].length;
         Files[Name]['Data'] += data['Data'];
         if (Files[Name]['Downloaded'] == Files[Name]['FileSize']) //If File is Fully Uploaded
@@ -57,9 +63,7 @@ const socketHandler = socket => {
                     fs.unlink("src/Temp/" + Name, function () { //This Deletes The Temporary File
                         ///small screenshot
                         var proc = new ffmpeg("src/uploads/Video/" + filename + ext)
-                            .on('filenames', function (filenames) {
-                                console.log('screenshots are ' + filenames.join(', '));
-                            })
+
                             .takeScreenshots({
                                 count: 1,
                                 timemarks: ['00:00:02.000'], // number of seconds,
@@ -75,24 +79,27 @@ const socketHandler = socket => {
                         proc = new ffmpeg("src/uploads/Video/" + filename + ext)
                             .on('end', async function () {
 
-                                const VideoData= {
-                                    'videopath' : filename + ext,
-                                    'smallThumb' : filename + '-small.png',
-                                    'largeThumb' : filename + '-large.png',
+                                const VideoData = {
+                                    'videopath': filename + ext,
+                                    'thumbs': [{ small: filename + '-small.png' }, { large: filename + '-large.png' }],
+                                    'chunks': Chunks,
+                                    'name' : Name
                                 }
                                 const video = await new videoModel(VideoData)
-                                await video.save((err)=>{
-                                    if(err){
+                                await video.save((err) => {
+                                    Files = {}
+                                    Chunks = []
+                                    if (err) {
                                         throw new Error("Some error occured")
                                     }
                                 })
 
                                 console.log('screenshots were saved');
+
                                 socket.emit('Done', { 'Image': 'src/uploads/Video/' + Name + '.jpg' });
+
                             })
-                            .on('filenames', function (filenames) {
-                                console.log('screenshots are ' + filenames.join(', '));
-                            })
+
                             .takeScreenshots({
                                 count: 1,
                                 timemarks: ['00:00:02.000'], // number of seconds,

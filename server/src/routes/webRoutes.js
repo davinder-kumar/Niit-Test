@@ -2,25 +2,22 @@ const express = require("express")
 const router = express.Router();
 const videoModel = require("../models/videos")
 
-router.get("/", (req, res) => {
-  res.send({ response: "I am alive" }).status(200);
-});
+router.get("/videos", (req, res) => {
 
-router.post("/video", (req, res) => {
-  const data = {}
-  data['videopath'] = "test"
-  data['smallThumb'] = "test1"
-  data['largeThumb'] = "test1"
-
-  const obj = new videoModel(data)
-  obj.save((err, video) => {
+  videoModel.find({}, function (err, videos) {
     if (err) {
-      console.log(err)
-    } else {
-      console.log(video)
+      res.json({ status: 0 }).status(400);
     }
+    var videoMap = [];
+    videos.forEach(function (video) {
+      videoMap.push({
+        video: video.videopath,
+        thumbs: video.thumbs,
+        name: video.name
+      })
+    });
+    res.json(videoMap).status(200);
   })
-  res.send()
-})
+});
 
 module.exports = router

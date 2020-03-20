@@ -6,18 +6,13 @@ var VideoSchema = mongoose.Schema(
             required: true,
             trim: true
         },
-        smallThumb: {
-                type: String,
-                required: true,
-                trim: true
+        name: {
+            type: String,
+            required: true,
+            trim: true
         },
-        largeThumb: {
-                type: String,
-                required: true,
-                trim: true
-        },
-
-        
+        chunks: [],
+        thumbs: [{}],
     });
 
 var Video = mongoose.model("Video", VideoSchema);

@@ -1,0 +1,9 @@
+#ProgressBar {
+	height: 100%;
+	width: 0%;
+
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	background: -webkit-gradient( linear, left top, left bottom, from(#a50aad), color-stop(0.50, #6b0d6b), to(#4a074a));
+}

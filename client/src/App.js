@@ -1,25 +1,20 @@
 import React from 'react';
-import { Route , Switch } from 'react-router-dom'
-import {routes} from './routes'
-import FileUploader from './containers/FileUploader'
+import { Route, Switch } from 'react-router-dom'
+import { routes } from './routes'
+import FileUploader from './containers/FileUploader/FileUploader'
+import Homepage from './containers/Homepage/Homepage'
+import Layout from './hoc/Layout/Layout'
 function App() {
-  // const endpoint = "http://127.0.0.1:8080"
-  
-
- 
-
-  // const { response } = userState;
   return (
     <div>
-      <Switch>
-        <Route path={routes.upload} component={FileUploader} />
-        {/* <Route path={} component={UploadFile} /> */}
-      </Switch>
-      {/* {response
-        ? <p>
-          The temperature in Florence is: {response} °F
-            </p>
-        : <p>Loading...</p>} */}
+      <Layout>
+        <Switch>
+
+          <Route path={routes.upload} component={FileUploader} />
+          <Route exact path={routes.home} component={Homepage} />
+        </Switch>
+      </Layout>
+
     </div>
   );
 
