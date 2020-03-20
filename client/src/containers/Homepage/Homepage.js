@@ -72,7 +72,6 @@ const Homepage = () => {
     }
 
     const searchVideosHandler = (event) => {
-
         if (unmutatedVideos.length) {
             const filteredResults = unmutatedVideos.filter(video => {
                 const name = video.name.toUpperCase()
@@ -81,17 +80,15 @@ const Homepage = () => {
             updateVideos(filteredResults)
         }
     }
-
     return (
         <div className={classes.homepage}>
             <button className={classes.button} onClick={toggleThumbsHandler}>Toggle Thumbs Size</button>
             <input className={classes.searchBar} onChange={searchVideosHandler} type="text" placeholder="Search videos" />
             <div>
                 {data}
-
                 {showModal ?
                     <Modal closePopup={onClosePopupHandler} >
-                        <video width="320" height="240" controls autoplay>
+                        <video loop="true" autoplay="autoplay" controls="controls" muted>
                             <source src={process.env.REACT_APP_UPLODAS_VIDEOS + "/" + currentVideo} type="video/mp4" />
                                 Your browser does not support the video tag.
                     </video>
@@ -102,5 +99,4 @@ const Homepage = () => {
     );
 
 }
-
 export default Homepage;

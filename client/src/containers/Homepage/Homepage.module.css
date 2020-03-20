@@ -44,3 +44,8 @@ div.gallery {
     margin-right: 16px;
     font-size: 17px;
   }
+  video{
+    height: 240px;
+    width: 320px;
+    /* width="320" height="240" */
+  }
